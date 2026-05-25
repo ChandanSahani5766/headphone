@@ -2,7 +2,7 @@
 
 A modern, responsive, and high-performance web application built using **Next.js**. This project focuses on delivering a smooth user experience with clean design, fast loading speed, reusable components, and scalable architecture.
 
-![Preview](./public/preview.png)
+![Live Preview Zenith X website](https://headphone-23.vercel.app/)
 
 ---
 
