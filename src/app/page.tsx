@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import HeadphoneScroll from "@/components/HeadphoneScroll";
 import { 
@@ -13,18 +14,11 @@ import {
   Eye, 
   Award, 
   Heart, 
-  Zap, 
-  ArrowUpRight,
   Sliders,
   Layers,
   Compass,
   Crosshair,
-  Waves,
-  Fingerprint,
-  Battery,
-  Check,
-  VolumeX,
-  Info
+  Fingerprint
 } from "lucide-react";
 
 const partsData = [
@@ -300,8 +294,6 @@ export default function Home() {
   const [productEdition, setProductEdition] = useState<"standard" | "pro" | "executive">("standard");
   const [hoveredPartIndex, setHoveredPartIndex] = useState<number | null>(null);
   const [hoveredFreq, setHoveredFreq] = useState<{ hz: number; db: number }>({ hz: 1000, db: 0 });
-  const [specsSpotlight, setSpecsSpotlight] = useState({ x: 0, y: 0 });
-  const [specsHovered, setSpecsHovered] = useState(false);
   const specsContainerRef = useRef<HTMLDivElement>(null);
 
   // Handle slide/drag simulation on capacitive pad
@@ -345,14 +337,7 @@ export default function Home() {
     });
   };
 
-  const handleSpecsMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!specsContainerRef.current) return;
-    const rect = specsContainerRef.current.getBoundingClientRect();
-    setSpecsSpotlight({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    });
-  };
+
 
   const handleGraphMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -1806,9 +1791,10 @@ export default function Home() {
               
               {/* Product Photo Showcase */}
               <div className="w-full lg:w-[360px] h-64 overflow-hidden rounded-2xl border border-white/10 shadow-2xl relative group-hover:border-amber-500/20 transition-all duration-500">
-                <img 
+                <Image 
                   src="/Photos/frame3.jpeg" 
                   alt="Zenith X Earcup Cushion Design"
+                  fill
                   className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 pointer-events-none"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
@@ -1910,10 +1896,7 @@ export default function Home() {
         <section 
           id="specs" 
           ref={specsContainerRef}
-          onMouseMove={handleSpecsMouseMove}
-          onMouseEnter={() => setSpecsHovered(true)}
           onMouseLeave={() => {
-            setSpecsHovered(false);
             setHoveredFreq({ hz: 1000, db: 0 });
           }}
           className="scroll-mt-24 relative z-20 bg-[#1c1a1d] py-32 px-6 md:px-12 border-t border-white/5 overflow-hidden"
@@ -2027,9 +2010,10 @@ export default function Home() {
                           0{part.index}
                         </div>
                         
-                        <img 
+                        <Image 
                           src={part.img} 
                           alt={part.title}
+                          fill
                           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 filter brightness-[0.65] group-hover:brightness-100"
                         />
                       </div>
@@ -2048,7 +2032,7 @@ export default function Home() {
                           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/5 pb-3">
                             <div>
                               <span className="text-[8px] font-mono tracking-widest text-white/30 uppercase">
-                                PART 0{activePart.index} // CONFIG
+                                PART 0{activePart.index} {"// CONFIG"}
                               </span>
                               <h4 className="text-sm font-bold text-white tracking-tight mt-0.5">
                                 {activePart.title}
@@ -2173,7 +2157,7 @@ export default function Home() {
 
                     {/* Real-time coordinates HUD inside */}
                     <div className="absolute top-2 right-2 z-10 bg-black/60 backdrop-blur border border-white/10 px-2 py-1 rounded-md text-[8px] font-mono text-white/50 tracking-wider">
-                      Hz: <span className="text-white font-bold">{hoveredFreq.hz.toLocaleString()}</span> // Response: <span className={`font-bold ${
+                      Hz: <span className="text-white font-bold">{hoveredFreq.hz.toLocaleString()}</span> {"// Response: "} <span className={`font-bold ${
                         productEdition === "pro" ? "text-blue-400" :
                         productEdition === "executive" ? "text-amber-400" :
                         "text-white"
